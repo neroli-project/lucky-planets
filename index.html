@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>金星と木星の開運メッセージ</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: エレガントな欧文フォントと上品な和文フォント -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Shippori+Mincho:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Astronomy Engine (ブラウザで動く純粋な天文計算ライブラリ) -->
+    <script src="https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/astronomy.browser.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Zen Kaku Gothic New"', 'sans-serif'],
+                        serif: ['"Shippori Mincho"', 'serif'],
+                        display: ['"Cormorant Garamond"', 'serif'],
+                    },
+                    colors: {
+                        ivory: '#FAF8F5',
+                        sand: '#F2ECE4',
+                        champagne: '#E6D7C3',
+                        gold: '#B68D4C',
+                        goldDark: '#8C6830',
+                        charcoal: '#2C2629',
+                        taupe: '#6E6267',
+                        roseDust: '#C98A95',
+                        sageGold: '#A68A56',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FAF8F5;
+            background-image: 
+                radial-gradient(at 15% 15%, rgba(235, 213, 218, 0.45) 0px, transparent 50%),
+                radial-gradient(at 85% 20%, rgba(230, 215, 195, 0.5) 0px, transparent 50%),
+                radial-gradient(at 50% 85%, rgba(224, 218, 235, 0.4) 0px, transparent 55%);
+            min-height: 100vh;
+            color: #2C2629;
+        }
+        /* 繊細な二重線フレームとすりガラス効果 */
+        .luxe-card {
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(182, 141, 76, 0.25);
+            box-shadow: 0 20px 40px -15px rgba(44, 38, 41, 0.06);
+        }
+        .inner-frame {
+            border: 1px solid rgba(182, 141, 76, 0.15);
+        }
+        .fade-in {
+            animation: fadeIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* セレクトボックスのカスタム矢印 */
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23B68D4C'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.85rem center;
+            background-size: 0.95rem;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-champagne/50 selection:text-charcoal pb-20">
+
+    <!-- 装飾用の繊細なトップライン -->
+    <div class="h-1 w-full bg-gradient-to-r from-transparent via-gold/50 to-transparent"></div>
+
+    <!-- ヘッダーエリア -->
+    <header class="pt-12 pb-8 px-5 text-center max-w-xl mx-auto">
+        <p class="font-display italic text-gold text-base sm:text-lg tracking-[0.25em] uppercase mb-2">
+            ✦ Special Gift for You ✦
+        </p>
+        <h1 class="font-serif text-2xl sm:text-3xl font-semibold text-charcoal tracking-wider leading-relaxed mb-4">
+            金星と木星が紡ぐ<br>あなただけの開運メッセージ
+        </h1>
+        <div class="w-12 h-[1px] bg-gold/40 mx-auto mb-4"></div>
+        <p class="text-xs sm:text-sm text-taupe leading-relaxed max-w-md mx-auto">
+            生まれた瞬間の星の配置から、あなたの魅力と愛を輝かせる「金星」と、豊かさとチャンスを広げる「木星」の鍵を読み解きます。
+        </p>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="px-4 sm:px-6 max-w-xl mx-auto space-y-8">
+
+        <!-- 生年月日入力カード -->
+        <section class="luxe-card rounded-3xl p-6 sm:p-9 text-center relative overflow-hidden">
+            <div class="inner-frame rounded-2xl p-5 sm:p-6 bg-white/40">
+                <span class="font-display text-xs tracking-[0.2em] text-gold uppercase block mb-1">Birth Date</span>
+                <label class="block font-serif font-semibold text-base sm:text-lg text-charcoal mb-5">
+                    生年月日をお選びください
+                </label>
+
+                <div class="grid grid-cols-3 gap-2.5 sm:gap-3.5 mb-6">
+                    <!-- 年 -->
+                    <div class="relative">
+                        <select id="birthYear" aria-label="生まれ年" class="w-full bg-ivory/90 border border-gold/30 rounded-xl py-3 pl-3 pr-8 text-center font-serif font-semibold text-charcoal focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/15 transition cursor-pointer">
+                        </select>
+                    </div>
+                    <!-- 月 -->
+                    <div class="relative">
+                        <select id="birthMonth" aria-label="生まれ月" class="w-full bg-ivory/90 border border-gold/30 rounded-xl py-3 pl-3 pr-8 text-center font-serif font-semibold text-charcoal focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/15 transition cursor-pointer">
+                        </select>
+                    </div>
+                    <!-- 日 -->
+                    <div class="relative">
+                        <select id="birthDay" aria-label="生まれ日" class="w-full bg-ivory/90 border border-gold/30 rounded-xl py-3 pl-3 pr-8 text-center font-serif font-semibold text-charcoal focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/15 transition cursor-pointer">
+                        </select>
+                    </div>
+                </div>
+
+                <!-- エラーメッセージ表示用 -->
+                <div id="errorMessage" class="hidden text-xs text-rose-600 bg-rose-50/90 border border-rose-200 py-2.5 px-3 rounded-xl mb-4"></div>
+
+                <button id="calculateBtn" class="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-[#B68D4C] via-[#A37B3E] to-[#8C6830] text-white font-serif font-semibold text-base tracking-widest shadow-md hover:shadow-xl hover:brightness-105 active:scale-[0.99] transition-all duration-300 flex items-center justify-center gap-2.5">
+                    <span class="text-champagne text-sm">✦</span>
+                    <span>星のメッセージを受け取る</span>
+                    <span class="text-champagne text-sm">✦</span>
+                </button>
+
+                <p class="text-[11px] text-taupe/80 mt-4 tracking-wide">
+                    ※出生時間が不明な方でもご覧いただけるよう、正午（12:00）基準で計算しています。
+                </p>
+            </div>
+        </section>
+
+        <!-- 鑑定結果エリア（初期は非表示） -->
+        <div id="resultArea" class="hidden space-y-8">
+
+            <!-- 金星のカード -->
+            <article class="luxe-card rounded-3xl p-6 sm:p-8 relative overflow-hidden fade-in">
+                <!-- 上部の繊細なアクセントバー -->
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-roseDust/30 via-roseDust to-roseDust/30"></div>
+
+                <div class="flex items-center justify-between border-b border-roseDust/20 pb-5 mb-6">
+                    <div>
+                        <span class="font-display italic text-sm text-roseDust tracking-widest block mb-0.5">Venus — Love & Beauty</span>
+                        <h2 id="venusSignTitle" class="font-serif text-xl sm:text-2xl font-bold text-charcoal tracking-wide">
+                            <!-- 例：牡牛座の金星 -->
+                        </h2>
+                    </div>
+                    <div id="venusSymbol" class="w-13 h-13 w-12 h-12 rounded-full bg-gradient-to-br from-rose-50 to-sand border border-roseDust/30 text-roseDust flex items-center justify-center text-2xl font-serif shadow-sm">
+                        <!-- 星座シンボル -->
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- 項目1：お金と収入 -->
+                    <div class="bg-ivory/80 rounded-2xl p-5 border border-roseDust/15">
+                        <h3 class="font-serif font-bold text-sm sm:text-base text-charcoal flex items-center gap-2 mb-2.5">
+                            <span class="text-roseDust text-xs">◆</span>
+                            <span>心が満たされるお金の使い方 ＆ センスを活かす収入</span>
+                        </h3>
+                        <p id="venusMoneyText" class="text-sm text-taupe leading-relaxed"></p>
+                    </div>
+
+                    <!-- 項目2：ときめきと癒やし -->
+                    <div class="bg-ivory/80 rounded-2xl p-5 border border-roseDust/15">
+                        <h3 class="font-serif font-bold text-sm sm:text-base text-charcoal flex items-center gap-2 mb-2.5">
+                            <span class="text-roseDust text-xs">◆</span>
+                            <span>心がときめく癒やし ＆ 日常のラッキーアクション</span>
+                        </h3>
+                        <p id="venusJoyText" class="text-sm text-taupe leading-relaxed"></p>
+                    </div>
+
+                    <!-- 項目3：金星の恋愛運アップ要素（グッズ・場所・色・方向） -->
+                    <div class="bg-gradient-to-br from-rose-50/70 to-ivory rounded-2xl p-5 border border-roseDust/25">
+                        <h3 class="font-serif font-bold text-sm sm:text-base text-charcoal flex items-center gap-2 mb-3.5">
+                            <span class="text-roseDust">♥</span>
+                            <span>恋愛運・愛され力を高める開運エッセンス</span>
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                            <div class="bg-white/80 rounded-xl p-3.5 border border-roseDust/15">
+                                <span class="text-[11px] font-bold text-roseDust tracking-wider block mb-1">✦ ラッキーグッズ</span>
+                                <p id="venusItemText" class="text-charcoal font-medium leading-snug"></p>
+                            </div>
+                            <div class="bg-white/80 rounded-xl p-3.5 border border-roseDust/15">
+                                <span class="text-[11px] font-bold text-roseDust tracking-wider block mb-1">✦ 開運スポット</span>
+                                <p id="venusPlaceText" class="text-charcoal font-medium leading-snug"></p>
+                            </div>
+                            <div class="bg-white/80 rounded-xl p-3.5 border border-roseDust/15">
+                                <span class="text-[11px] font-bold text-roseDust tracking-wider block mb-1">✦ ラッキーカラー</span>
+                                <p id="venusColorText" class="text-charcoal font-medium leading-snug"></p>
+                            </div>
+                            <div class="bg-white/80 rounded-xl p-3.5 border border-roseDust/15">
+                                <span class="text-[11px] font-bold text-roseDust tracking-wider block mb-1">✦ ラッキー方角</span>
+                                <p id="venusDirectionText" class="text-charcoal font-medium leading-snug"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 木星のカード -->
+            <article class="luxe-card rounded-3xl p-6 sm:p-8 relative overflow-hidden fade-in" style="animation-delay: 0.15s;">
+                <!-- 上部の繊細なアクセントバー -->
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-gold/30 via-gold to-gold/30"></div>
+
+                <div class="flex items-center justify-between border-b border-gold/20 pb-5 mb-6">
+                    <div>
+                        <span class="font-display italic text-sm text-gold tracking-widest block mb-0.5">Jupiter — Fortune & Expansion</span>
+                        <h2 id="jupiterSignTitle" class="font-serif text-xl sm:text-2xl font-bold text-charcoal tracking-wide">
+                            <!-- 例：射手座の木星 -->
+                        </h2>
+                    </div>
+                    <div id="jupiterSymbol" class="w-12 h-12 rounded-full bg-gradient-to-br from-amber-50 to-sand border border-gold/30 text-gold flex items-center justify-center text-2xl font-serif shadow-sm">
+                        <!-- 星座シンボル -->
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- 項目1：幸運が広がる分野 -->
+                    <div class="bg-ivory/80 rounded-2xl p-5 border border-gold/15">
+                        <h3 class="font-serif font-bold text-sm sm:text-base text-charcoal flex items-center gap-2 mb-2.5">
+                            <span class="text-gold text-xs">◆</span>
+                            <span>幸運が広がる分野（追い風が吹くテーマ）</span>
+                        </h3>
+                        <p id="jupiterLuckText" class="text-sm text-taupe leading-relaxed"></p>
+                    </div>
+
+                    <!-- 項目2：社会的な成功や援助 -->
+                    <div class="bg-ivory/80 rounded-2xl p-5 border border-gold/15">
+                        <h3 class="font-serif font-bold text-sm sm:text-base text-charcoal flex items-center gap-2 mb-2.5">
+                            <span class="text-gold text-xs">◆</span>
+                            <span>社会的な成功や援助を引き寄せる鍵</span>
+                        </h3>
+                        <p id="jupiterSuccessText" class="text-sm text-taupe leading-relaxed"></p>
+                    </div>
+
+                    <!-- 項目3：木星の全体運アップ要素（グッズ・場所・色・方向） -->
+                    <div class="bg-gradient-to-br from-amber-50/70 to-ivory rounded-2xl p-5 border border-gold/25">
+                        <h3 class="font-serif font-bold text-sm sm:text-base text-charcoal flex items-center gap-2 mb-3.5">
+                            <span class="text-gold">✦</span>
+                            <span>幸運とチャンスを呼び込む開運エッセンス</span>
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                            <div class="bg-white/80 rounded-xl p-3.5 border border-gold/15">
+                                <span class="text-[11px] font-bold text-gold tracking-wider block mb-1">✦ ラッキーグッズ</span>
+                                <p id="jupiterItemText" class="text-charcoal font-medium leading-snug"></p>
+                            </div>
+                            <div class="bg-white/80 rounded-xl p-3.5 border border-gold/15">
+                                <span class="text-[11px] font-bold text-gold tracking-wider block mb-1">✦ 開運スポット</span>
+                                <p id="jupiterPlaceText" class="text-charcoal font-medium leading-snug"></p>
+                            </div>
+                            <div class="bg-white/80 rounded-xl p-3.5 border border-gold/15">
+                                <span class="text-[11px] font-bold text-gold tracking-wider block mb-1">✦ ラッキーカラー</span>
+                                <p id="jupiterColorText" class="text-charcoal font-medium leading-snug"></p>
+                            </div>
+                            <div class="bg-white/80 rounded-xl p-3.5 border border-gold/15">
+                                <span class="text-[11px] font-bold text-gold tracking-wider block mb-1">✦ ラッキー方角</span>
+                                <p id="jupiterDirectionText" class="text-charcoal font-medium leading-snug"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+    </main>
+
+    <!-- フッター -->
+    <footer class="mt-14 text-center px-4">
+        <div class="w-8 h-[1px] bg-gold/30 mx-auto mb-3"></div>
+        <p class="font-serif text-xs text-taupe/80 tracking-wider">
+            いつもご覧いただきありがとうございます ✦ あなたに豊かな愛と幸運が降り注ぎますように
+        </p>
+    </footer>
+
+    <script>
+        // ==========================================
+        // 12星座の開運メッセージデータ（金星・木星）
+        // ==========================================
+        const ZODIAC_DATA = [
+            {
+                name: "牡羊座",
+                symbol: "♈",
+                venus: {
+                    money: "「これだ！」と直感でときめいたものや、新しい体験・自己投資にお金を使うと心が大きく満たされます。スピード感や情熱を活かした発信、トレンドをいち早く取り入れる活動、自分の個性を前面に出すことで収入のチャンスが広がります。",
+                    joy: "モヤモヤしたときは、少し汗をかく運動や新しい場所へのお出かけが最高の癒やしに。ファッションは赤や明るいビタミンカラーを差し色に取り入れたり、新作コスメや話題のスポットをいち早く試すことがラッキーアクションです。",
+                    loveEssence: {
+                        item: "新作リップ、華奢なゴールドアクセサリー、キャンドル",
+                        place: "オープンしたばかりの話題のカフェ、展望台、スポーツ観戦",
+                        color: "カーマインレッド、コーラルピンク、ピュアホワイト",
+                        direction: "東（朝日が昇るエネルギーが恋の進展を後押し）"
+                    }
+                },
+                jupiter: {
+                    luck: "「まだ誰もやっていないことへの挑戦」や「自分らしくリーダーシップをとること」に強い追い風が吹きます。迷ったらまず一歩踏み出してみることで、思わぬ幸運の扉が次々と開いていきます。",
+                    success: "自分の意見や情熱をストレートに表現することが、目上の人や周囲からの応援を引き寄せる鍵になります。遠慮せず「これをやりたい！」と宣言することで、強力なサポーターが現れるでしょう。",
+                    luckEssence: {
+                        item: "上質な手帳・ペン、スニーカー、太陽モチーフの小物",
+                        place: "見晴らしの良い高台、新しい商業施設、スタートアップの場",
+                        color: "スカーレット、サンシャインオレンジ、ゴールド",
+                        direction: "東（新しいチャンスやご縁が舞い込む吉方位）"
+                    }
+                }
+            },
+            {
+                name: "牡牛座",
+                symbol: "♉",
+                venus: {
+                    money: "肌触りの良い服、美味しいグルメ、長く愛用できる上質なアイテムなど「五感が喜ぶもの」にお金を使うことで豊かな幸福感に包まれます。料理・美容・ハンドメイド・デザインなど、あなたの優れた審美眼やセンスを形にすることで収入につながります。",
+                    joy: "お気に入りの香りのアロマや入浴剤でゆっくりバスタイムを過ごしたり、美味しいお茶とお菓子を味わう時間が心を深く癒やします。天然素材のファッションや、美術館・自然豊かな場所でのんびり過ごすのがラッキーアクションです。",
+                    loveEssence: {
+                        item: "フローラル系の香水、シルクやカシミヤのストール、生花",
+                        place: "緑豊かな庭園、評判のレストラン、美術館・ギャラリー",
+                        color: "パステルピンク、エメラルドグリーン、アイボリー",
+                        direction: "南東（穏やかで愛に満ちた良縁を引き寄せる方角）"
+                    }
+                },
+                jupiter: {
+                    luck: "「コツコツと継続すること」や「自分の才能・資産をじっくり育てること」に大きな幸運が宿ります。焦らず自分のペースで積み重ねた努力が、やがて揺るぎない大きな成果となって実を結びます。",
+                    success: "誠実で安定した仕事ぶりと、ブレない安心感が周囲からの厚い信頼を集めます。専門スキルを磨いたり、品質にこだわった丁寧な仕事を心がけることで、長く続く豊かな人脈と支援に恵まれます。",
+                    luckEssence: {
+                        item: "本革の財布・バッグ、観葉植物、上質な陶器のマグカップ",
+                        place: "老舗のホテルラウンジ、自然公園、クラシックな建築物",
+                        color: "フォレストグリーン、テラコッタ、シャンパンゴールド",
+                        direction: "南東（豊かさと安定した発展を育む吉方位）"
+                    }
+                }
+            },
+            {
+                name: "双子座",
+                symbol: "♊",
+                venus: {
+                    money: "本や学び、旅行、友人との楽しいおしゃべりやカフェ代など「好奇心とコミュニケーション」にお金を使うと心が満たされます。文章執筆、SNS発信、企画、教えることなど、言葉や情報センスを活かした分野で収入の縁が広がります。",
+                    joy: "気分転換には、気になっていたカフェへ行ったり、友人と軽やかに会話を楽しむのが一番の癒やし。ファッションは軽やかでトレンド感のあるスタイル、本屋巡りや新しいアプリの活用などが日常に彩りを与えてくれます。",
+                    loveEssence: {
+                        item: "華奢なブレスレット、最新のスマホケース、文庫本・雑誌",
+                        place: "ブックカフェ、セレクトショップ、駅近のトレンドスポット",
+                        color: "レモンイエロー、スカイブルー、ミントグリーン",
+                        direction: "北東（フレッシュな出会いと嬉しい連絡を運ぶ方角）"
+                    }
+                },
+                jupiter: {
+                    luck: "「フットワーク軽く情報を集めること」や「人とのご縁をつなぐこと」に追い風が吹きます。複数の興味を同時に楽しんだり、SNSや言葉を通じて発信することで、幸運のネットワークがどんどん広がります。",
+                    success: "機転の利く対応力と柔軟なコミュニケーションが、仕事での飛躍や人脈拡大の鍵に。ちょっとした雑談や情報交換の中からビッグチャンスが舞い込みやすいので、好奇心のアンテナを常に立てておきましょう。",
+                    luckEssence: {
+                        item: "ワイヤレスイヤホン、ノートPC・タブレット、軽やかなスカーフ",
+                        place: "コワーキングスペース、書店、セミナーや交流会",
+                        color: "カナリアイエロー、ペールブルー、シルバー",
+                        direction: "北東（有益な情報と人脈のネットワークが広がる吉方位）"
+                    }
+                }
+            },
+            {
+                name: "蟹座",
+                symbol: "♋",
+                venus: {
+                    money: "お部屋を快適にするインテリアやキッチン用品、大切な家族や親しい人へのプレゼントにお金を使うと心が温かく満たされます。人の心に寄り添う仕事や、暮らし・食・コミュニティに関わるセンスを活かすことで収入につながります。",
+                    joy: "おうち時間をとびきり心地よく整えることが最高の癒やしに。手料理を楽しんだり、柔らかい素材のルームウェアでくつろぐのがおすすめです。懐かしい思い出の場所を訪れたり、心許せる人と過ごす時間が幸運を呼びます。",
+                    loveEssence: {
+                        item: "パールのアクセサリー、ふわふわのタオル、フォトフレーム",
+                        place: "海辺や湖畔のカフェ、アットホームなビストロ、自宅でのホームパーティ",
+                        color: "パールホワイト、ベビーピンク、シルバー",
+                        direction: "北（心の絆を深め、安心できる愛を育む方角）"
+                    }
+                },
+                jupiter: {
+                    luck: "「安心できる居場所づくり」や「身近な人を大切に育てること」に大きな幸運が広がります。人の気持ちを汲み取る優しさがそのまま強みになり、周囲と温かい信頼関係を築くことで運気が大きく開けます。",
+                    success: "身内のように親身になってサポートする姿勢が、目上の人や仲間からの深い信頼と援助を引き寄せます。チームワークを大切にし、人が安心して集まれる場をつくることで社会的な評価が高まります。",
+                    luckEssence: {
+                        item: "上質なキッチンウェア、アロマディフューザー、アルバム",
+                        place: "水辺のリゾート、地元の氏神様、歴史ある温泉地",
+                        color: "乳白色（オフホワイト）、アクアブルー、シルバー",
+                        direction: "北（信頼できる仲間や味方に恵まれる吉方位）"
+                    }
+                }
+            },
+            {
+                name: "獅子座",
+                symbol: "♌",
+                venus: {
+                    money: "心がワクワクするエンタメ、推し活、自分を輝かせるファッションや美容にお金を使うとエネルギーが満ちあふれます。自己表現やクリエイティブな活動、人前に立つことなど、あなたの華やかな魅力を活かすことで収入の道が開けます。",
+                    joy: "映画や舞台を観て感動したり、思いきり趣味に没頭する時間が最高のストレス解消に。ファッションは少し華やかなアクセサリーや主役級のアイテムを取り入れて、堂々と自分を楽しむことがラッキーアクションです。",
+                    loveEssence: {
+                        item: "大ぶりのイヤリング・ピアス、コンパクトミラー、ヘアオイル",
+                        place: "劇場・映画館、イルミネーションスポット、華やかなラウンジ",
+                        color: "シャンパンゴールド、サンセットオレンジ、ルビーレッド",
+                        direction: "南（あなたの魅力が輝き、ドラマチックな恋を呼ぶ方角）"
+                    }
+                },
+                jupiter: {
+                    luck: "「自分らしさを堂々と表現すること」や「クリエイティブな創作・遊び心」に強い追い風が吹きます。あなたが心から楽しんで輝いている姿そのものが、周囲を魅了し大きなチャンスを引き寄せます。",
+                    success: "裏方に回るよりも、自分の名前や個性を出して前に立つことで社会的な発展が加速します。ポジティブな明るさと堂々とした振る舞いが、引き立ててくれる有力者とのご縁をつなぎます。",
+                    luckEssence: {
+                        item: "ゴールドの腕時計、サングラス、アート作品・画集",
+                        place: "美術館・ホール、テーマパーク、日の光がたっぷり入るカフェ",
+                        color: "ロイヤルゴールド、マリーゴールド、ホワイト",
+                        direction: "南（才能が開花し、注目と評価を集める吉方位）"
+                    }
+                }
+            },
+            {
+                name: "乙女座",
+                symbol: "♍",
+                venus: {
+                    money: "健康や美容のメンテナンス、整理整頓グッズ、実用性の高い上質な日用品にお金を使うと心がスッキリ満たされます。丁寧な分析力やサポート力、美容・健康・事務スキルなどの細やかなセンスを活かすことで確かな収入につながります。",
+                    joy: "お部屋やデスク周りを綺麗に片付けたり、ハーブティーや身体に優しい食事で内側を整えることが最高の癒やしに。清潔感のある上品なファッションや、手帳に予定や気持ちを書き出す習慣が日常に心地よいリズムを生みます。",
+                    loveEssence: {
+                        item: "清潔感のあるハンカチ、ハンドクリーム、繊細なネックレス",
+                        place: "植物園・ボタニカルカフェ、オーガニックレストラン、図書館",
+                        color: "ネイビー、ペールグリーン、ベージュ",
+                        direction: "南西（誠実で落ち着いた大人の恋を実らせる方角）"
+                    }
+                },
+                jupiter: {
+                    luck: "「人の役に立つ工夫をすること」や「専門知識・実務スキルを磨くこと」に幸運が宿ります。細かい部分にまで気を配る丁寧な姿勢が評価され、地道な努力が着実に大きな結果へと結びつきます。",
+                    success: "「あなたに任せれば安心」という高い信頼感が、仕事での昇進や重要なポジションを引き寄せる鍵です。整理・改善のアイデアを提案したり、周囲を的確にサポートすることで目上の人から重宝されます。",
+                    luckEssence: {
+                        item: "上質なシステム手帳、ハーブティー、機能的なポーチ",
+                        place: "静かな書斎・ラウンジ、薬膳・自然食カフェ、森林セラピー",
+                        color: "モスグリーン、ネイビーブルー、サンドベージュ",
+                        direction: "南西（着実な成果と信頼の積み重ねを助ける吉方位）"
+                    }
+                }
+            },
+            {
+                name: "天秤座",
+                symbol: "♎",
+                venus: {
+                    money: "洗練されたファッションやコスメ、アート鑑賞、素敵な空間でのランチや社交にお金を使うと心が華やぎます。美意識やバランス感覚、人と人をつなぐプロデュース力など、センスと社交性を活かすことで収入が広がります。",
+                    joy: "美しいものに触れることが一番の栄養になります。美術館やおしゃれなカフェ巡り、季節の花を部屋に飾るのがおすすめ。ファッションは上品で洗練されたコーディネートを意識すると、気品と幸運が自然と高まります。",
+                    loveEssence: {
+                        item: "ペアデザインの小物、チーク・フェイスパウダー、シルクのリボン",
+                        place: "アフタヌーンティー、ルーフトップバー、おしゃれなセレクトショップ",
+                        color: "ローズピンク、ペールブルー、シャンパンベージュ",
+                        direction: "西（素敵なパートナーシップと華やかなご縁を運ぶ方角）"
+                    }
+                },
+                jupiter: {
+                    luck: "「パートナーシップや人とのご縁」を通じて幸運が大きく広がります。一人で抱え込まず、誰かと協力したり、魅力的な人と積極的に交流することで、一人では辿り着けないステージへと押し上げられます。",
+                    success: "公平でスマートな気配りと、誰とでも心地よく調和できる社交性が社会的な成功の鍵に。良きビジネスパートナーや紹介者との出会いに恵まれやすいので、おしゃれをして人の集まる場へ出かけてみましょう。",
+                    luckEssence: {
+                        item: "洗練された名刺入れ、美しいデザインの万年筆、香水",
+                        place: "ホテルのティールーム、アートギャラリー、レセプション会場",
+                        color: "パステルブルー、ローズクォーツ、アイボリー",
+                        direction: "西（良き協力者やビジネスパートナーと出会う吉方位）"
+                    }
+                }
+            },
+            {
+                name: "蠍座",
+                symbol: "♏",
+                venus: {
+                    money: "「これだけは譲れない」と深く愛せるものや、専門的な学び・探究、長く付き合える本物にお金を使うと心が満たされます。一つのことを深く掘り下げる集中力や洞察力、心理学・美容・専門分野のセンスを活かすと豊かな収入につながります。",
+                    joy: "一人の静かな時間の中で、好きな音楽や映画、読書の世界にどっぷり浸ることが深い癒やしになります。ファッションはシックで落ち着いた色合いや、見えない部分のランジェリー・香りにこだわると運気がアップします。",
+                    loveEssence: {
+                        item: "ムスクやウッディ系のフレグランス、深紅のリップ、アンティーク小物",
+                        place: "隠れ家的なバー・レストラン、プラネタリウム、夜景の見える場所",
+                        color: "ボルドー、バーガンディ、ロイヤルパープル",
+                        direction: "北西（運命的で深い絆の恋愛を引き寄せる方角）"
+                    }
+                },
+                jupiter: {
+                    luck: "「一つのテーマを深く極めること」や「特定の相手と深い信頼関係を築くこと」に大きな幸運が宿ります。表面的なことにとらわれず本質を追求する姿勢が、やがて大きな変容と豊かさをもたらします。",
+                    success: "圧倒的な集中力と、秘密や約束を守り抜く誠実さが、有力者からの深い信頼と特別な支援を引き寄せます。特定の分野で「この人しかいない」という存在になることで、社会的な地位と発展が約束されます。",
+                    luckEssence: {
+                        item: "天然石（ガーネット・アメジスト）、重厚感のあるペン、専門書",
+                        place: "歴史ある神社仏閣、静かな書庫、会員制や隠れ家空間",
+                        color: "ディープパープル、ワインレッド、ブラック",
+                        direction: "北西（強力な後ろ盾と大きな飛躍をもたらす吉方位）"
+                    }
+                }
+            },
+            {
+                name: "射手座",
+                symbol: "♐",
+                venus: {
+                    money: "旅行や未知の体験、専門書やセミナーなどの「視野を広げる学び」にお金を使うと心が大きく満たされます。海外文化、語学、出版・発信、教えることなど、自由な発想と探究心を活かす分野で収入のチャンスが広がります。",
+                    joy: "いつもと違う景色を見に行く小旅行や、広い空の下を散歩することが最高のストレス解消に。ファッションは動きやすく開放感のあるスタイルや、異国情緒のあるアイテムを取り入れると、ワクワクする幸運が舞い込みます。",
+                    loveEssence: {
+                        item: "旅先で見つけたアクセサリー、スニーカー、洋書・アートブック",
+                        place: "空港・旅行先、エスニック料理店、開放的なテラス席",
+                        color: "ロイヤルブルー、ターコイズ、パープル",
+                        direction: "南東（視野を広げる楽しい恋や旅先での縁を呼ぶ方角）"
+                    }
+                },
+                jupiter: {
+                    luck: "「未知の世界へ冒険すること」や「高い理想を掲げて学び続けること」に強力な追い風が吹きます。自分の枠を超えて遠い場所や新しい分野にチャレンジするほど、想像以上の幸運とチャンスが巡ってきます。",
+                    success: "おおらかな楽観性と、未来を見据える高い視座が周囲を惹きつけます。専門性を高めて発信したり、異なる文化や業界の人と交流することで、世界が広がり大きな成功と引き立てに恵まれます。",
+                    luckEssence: {
+                        item: "パスポートケース、上質なトラベルバッグ、地球儀モチーフ",
+                        place: "大学・アカデミー、国際的なホテル、高原や広大な公園",
+                        color: "インディゴブルー、バイオレット、ゴールド",
+                        direction: "南東（スケールが大きく発展し、幸運が拡大する吉方位）"
+                    }
+                }
+            },
+            {
+                name: "山羊座",
+                symbol: "♑",
+                venus: {
+                    money: "一生モノの時計やバッグ、伝統ある名品、将来のキャリアにつながる自己投資にお金を使うと心が満たされます。ビジネス感覚や管理能力、堅実で信頼されるセンスを活かした仕事や副業で、着実に豊かな収入を築けます。",
+                    joy: "静かな和カフェや歴史ある場所を訪れたり、目標を達成した自分にご褒美を与える時間が心を癒やします。ファッションはシンプルで質の良いトラッドスタイルや、時計・靴など小物にこだわることがラッキーアクションです。",
+                    loveEssence: {
+                        item: "クラシックな腕時計、上質なレザー小物、パールピアス",
+                        place: "老舗の和カフェ・料亭、歴史的建造物、落ち着いたホテルラウンジ",
+                        color: "ダークブラウン、チャコールグレー、深緑",
+                        direction: "北（将来を見据えた誠実で長続きする愛を育む方角）"
+                    }
+                },
+                jupiter: {
+                    luck: "「長期的な目標に向かって着実に努力すること」や「社会的な責任を引き受けること」に大きな幸運が宿ります。時間がかかることでも諦めずに取り組むことで、揺るぎない地位と大きな成果を手に入れられます。",
+                    success: "誠実で礼儀正しい姿勢と、結果にコミットするプロ意識が、目上の人や組織からの絶大な信頼と支援を引き寄せます。王道の努力を積み重ねることで、着実にステップアップし社会的な成功を収めることができます。",
+                    luckEssence: {
+                        item: "名門ブランドのペン、磨かれた革靴、アンティーク時計",
+                        place: "伝統ある美術館、由緒ある神社、高層階のラウンジ",
+                        color: "ダークグリーン、ネイビー、アンティークゴールド",
+                        direction: "北（社会的な地位と確かな信頼を築く吉方位）"
+                    }
+                }
+            },
+            {
+                name: "水瓶座",
+                symbol: "♒",
+                venus: {
+                    money: "最新のガジェットや便利家電、個性的なアート、同じ志を持つ仲間との交流にお金を使うと心が満たされます。IT・デジタルスキルや独自のアイデア、オリジナリティあふれるセンスを活かすことで新しい形の収入が生まれます。",
+                    joy: "常識やルールから離れて、自由に一人で過ごす時間や気の合う仲間との語らいが最高の癒やしに。ファッションは少し個性的で周りと被らないデザインや、最新のテクノロジー・話題のスポットを取り入れるのがラッキーアクションです。",
+                    loveEssence: {
+                        item: "シルバーアクセサリー、ユニークなデザインの小物、最新ガジェット",
+                        place: "プラネタリウム・科学館、コンセプトカフェ、アートイベント",
+                        color: "アクアブルー、シルバー、ラベンダー",
+                        direction: "南（友情から発展する恋や理想の出会いを呼ぶ方角）"
+                    }
+                },
+                jupiter: {
+                    luck: "「自分だけのオリジナリティを発揮すること」や「未来志向のコミュニティ・ネットワーク」に追い風が吹きます。人と違う発想やユニークな個性を隠さず表現することで、時代を先取りする幸運が舞い込みます。",
+                    success: "年齢や肩書きにとらわれないフラットな人付き合いが、多様な人脈と斬新なチャンスを引き寄せます。既存の枠にとらわれないアイデアを提案したり、オンラインやコミュニティを活用することで大きく発展していきます。",
+                    luckEssence: {
+                        item: "最新スマートウォッチ、幾何学モチーフの小物、デザイナーズ雑貨",
+                        place: "現代美術館、展望デッキ、クリエイティブなシェアスペース",
+                        color: "エレクトリックブルー、メタリックシルバー、ホワイト",
+                        direction: "南（斬新なアイデアと未来のチャンスが舞い込む吉方位）"
+                    }
+                }
+            },
+            {
+                name: "魚座",
+                symbol: "♓",
+                venus: {
+                    money: "音楽やアート、癒やしの空間、人の笑顔や感謝につながる寄付・プレゼントにお金を使うと心が深く満たされます。豊かな想像力や共感力、ヒーリング・芸術・美容・スピリチュアルなどの感性を活かすことで収入の縁が広がります。",
+                    joy: "海や水辺を眺めたり、好きな音楽に包まれながらゆっくり眠ることが一番の癒やしに。ファッションはふんわりと優しい素材や淡いパステルカラー、ロマンチックな小物を取り入れると、愛と幸運の波動が高まります。",
+                    loveEssence: {
+                        item: "バスソルト・アロマオイル、シフォン素材のスカーフ、クリスタル小物",
+                        place: "水族館、海辺のテラス、キャンドルが灯るロマンチックなカフェ",
+                        color: "ラベンダー、シェルピンク、アクアマリン",
+                        direction: "西（優しくロマンチックな愛に包まれる方角）"
+                    }
+                },
+                jupiter: {
+                    luck: "「直感やインスピレーションを信じること」や「誰かに優しさや癒やしを届けること」に大きな幸運が広がります。理屈を超えたご縁や不思議なタイミングに導かれ、自然と望む場所へと運ばれていきます。",
+                    success: "人の痛みに寄り添う温かな共感力と柔軟性が、周囲からの深い愛とサポートを引き寄せます。損得勘定を超えて誰かのために尽くしたことが、巡り巡って大きな救いや想像以上の成功となって返ってきます。",
+                    luckEssence: {
+                        item: "天然アロマミスト、お気に入りの音楽プレイリスト、ガラス細工",
+                        place: "海・湖などの水辺、スパ・リトリート施設、コンサートホール",
+                        color: "シーグリーン、ペールラベンダー、パールホワイト",
+                        direction: "西（直感が冴え、温かい援助と癒やしに恵まれる吉方位）"
+                    }
+                }
+            }
+        ];
+
+        // ==========================================
+        // UI初期化（生年月日セレクトボックス）
+        // ==========================================
+        const yearSelect = document.getElementById('birthYear');
+        const monthSelect = document.getElementById('birthMonth');
+        const daySelect = document.getElementById('birthDay');
+        const calculateBtn = document.getElementById('calculateBtn');
+        const resultArea = document.getElementById('resultArea');
+        const errorMessage = document.getElementById('errorMessage');
+
+        function initDateSelectors() {
+            const currentYear = new Date().getFullYear();
+            // 1930年〜現在まで
+            for (let y = currentYear; y >= 1930; y--) {
+                const option = document.createElement('option');
+                option.value = y;
+                option.textContent = `${y}年`;
+                if (y === 1990) option.selected = true; // 初期選択
+                yearSelect.appendChild(option);
+            }
+
+            // 1月〜12月
+            for (let m = 1; m <= 12; m++) {
+                const option = document.createElement('option');
+                option.value = m;
+                option.textContent = `${m}月`;
+                if (m === 1) option.selected = true;
+                monthSelect.appendChild(option);
+            }
+
+            // 1日〜31日
+            updateDays();
+        }
+
+        // 月・年に応じて日の選択肢を調整
+        function updateDays() {
+            const year = parseInt(yearSelect.value, 10);
+            const month = parseInt(monthSelect.value, 10);
+            const prevDay = parseInt(daySelect.value, 10) || 1;
+            const daysInMonth = new Date(year, month, 0).getDate();
+
+            daySelect.innerHTML = '';
+            for (let d = 1; d <= daysInMonth; d++) {
+                const option = document.createElement('option');
+                option.value = d;
+                option.textContent = `${d}日`;
+                if (d === Math.min(prevDay, daysInMonth)) {
+                    option.selected = true;
+                }
+                daySelect.appendChild(option);
+            }
+        }
+
+        yearSelect.addEventListener('change', updateDays);
+        monthSelect.addEventListener('change', updateDays);
+
+        // ==========================================
+        // Astronomy Engine を使った天体計算
+        // ==========================================
+        function getZodiacIndexFromLongitude(lon) {
+            // 黄経 (0〜360度) を30度ずつ12星座に分割
+            const normalized = ((lon % 360) + 360) % 360;
+            return Math.floor(normalized / 30);
+        }
+
+        function calculateStars() {
+            try {
+                errorMessage.classList.add('hidden');
+
+                const year = parseInt(yearSelect.value, 10);
+                const month = parseInt(monthSelect.value, 10);
+                const day = parseInt(daySelect.value, 10);
+
+                // 日本時間(JST)の正午 12:00 = UTC 03:00 として計算
+                const dateUtc = new Date(Date.UTC(year, month - 1, day, 3, 0, 0));
+
+                if (isNaN(dateUtc.getTime())) {
+                    throw new Error("正しい日付を選択してください。");
+                }
+
+                // Astronomy Engine が読み込まれているか確認
+                if (typeof Astronomy === 'undefined') {
+                    throw new Error("天文計算ライブラリの読み込み中です。数秒後にもう一度お試しください。");
+                }
+
+                // 地球から見た天体の位置ベクトル（地心赤道座標）を取得し、黄道座標へ変換
+                const venusVec = Astronomy.GeoVector(Astronomy.Body.Venus, dateUtc, true);
+                const venusEcl = Astronomy.Ecliptic(venusVec);
+                const venusIndex = getZodiacIndexFromLongitude(venusEcl.elon);
+
+                const jupiterVec = Astronomy.GeoVector(Astronomy.Body.Jupiter, dateUtc, true);
+                const jupiterEcl = Astronomy.Ecliptic(jupiterVec);
+                const jupiterIndex = getZodiacIndexFromLongitude(jupiterEcl.elon);
+
+                renderResult(venusIndex, jupiterIndex);
+
+            } catch (err) {
+                errorMessage.textContent = err.message || "計算中にエラーが発生しました。";
+                errorMessage.classList.remove('hidden');
+            }
+        }
+
+        // ==========================================
+        // 鑑定結果の描画
+        // ==========================================
+        function renderResult(venusIdx, jupiterIdx) {
+            const venusData = ZODIAC_DATA[venusIdx];
+            const jupiterData = ZODIAC_DATA[jupiterIdx];
+
+            // 金星の反映
+            document.getElementById('venusSignTitle').textContent = `${venusData.name}の金星`;
+            document.getElementById('venusSymbol').textContent = venusData.symbol;
+            document.getElementById('venusMoneyText').textContent = venusData.venus.money;
+            document.getElementById('venusJoyText').textContent = venusData.venus.joy;
+            document.getElementById('venusItemText').textContent = venusData.venus.loveEssence.item;
+            document.getElementById('venusPlaceText').textContent = venusData.venus.loveEssence.place;
+            document.getElementById('venusColorText').textContent = venusData.venus.loveEssence.color;
+            document.getElementById('venusDirectionText').textContent = venusData.venus.loveEssence.direction;
+
+            // 木星の反映
+            document.getElementById('jupiterSignTitle').textContent = `${jupiterData.name}の木星`;
+            document.getElementById('jupiterSymbol').textContent = jupiterData.symbol;
+            document.getElementById('jupiterLuckText').textContent = jupiterData.jupiter.luck;
+            document.getElementById('jupiterSuccessText').textContent = jupiterData.jupiter.success;
+            document.getElementById('jupiterItemText').textContent = jupiterData.jupiter.luckEssence.item;
+            document.getElementById('jupiterPlaceText').textContent = jupiterData.jupiter.luckEssence.place;
+            document.getElementById('jupiterColorText').textContent = jupiterData.jupiter.luckEssence.color;
+            document.getElementById('jupiterDirectionText').textContent = jupiterData.jupiter.luckEssence.direction;
+
+            // アニメーションを再トリガーして表示
+            resultArea.classList.remove('hidden');
+            const cards = resultArea.querySelectorAll('article');
+            cards.forEach(card => {
+                card.classList.remove('fade-in');
+                void card.offsetWidth; // リフロー強制
+                card.classList.add('fade-in');
+            });
+
+            // 結果位置へスムーズにスクロール
+            resultArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // イベント登録
+        calculateBtn.addEventListener('click', calculateStars);
+
+        // ページ読み込み時に初期化
+        window.addEventListener('DOMContentLoaded', initDateSelectors);
+    </script>
+</body>
+</html>
